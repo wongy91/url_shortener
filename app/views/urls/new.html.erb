@@ -1,2 +1,11 @@
-<h1>Urls#new</h1>
-<p>Find me in app/views/urls/new.html.erb</p>
+<h1><%= flash[:success] %></h1>
+
+<% if @url %>
+  <%= render partial: 'urls/success' %>
+<% end %>
+
+<h1><%= flash[:error]&.join(", ") %><h1>
+<%= form_with model: Url.new do |form| %>
+  <p>Enter a long URL to make shortened URL: <%= form.text_field :long_url %></p>
+  <%= form.submit %>
+<% end %>

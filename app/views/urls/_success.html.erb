@@ -1,0 +1,15 @@
+<p>The following URL:</p>
+<div style="font-weight: 700;">
+  <%= @url.long_url %>
+</div>
+<p>
+  has a length of <%= @url.long_url.length %> characters and resulted in the following shortened URL with <%= @url.short_url.length %> characters
+</p>
+<div id="short-url" style="font-weight: 700;">
+  <%= "#{request.host_with_port}/#{@url.short_url}" %>
+</div>
+
+<br>
+<button class="clipboard-btn" data-clipboard-action="copy" data-clipboard-target="#short-url">
+  Copy to clipboard
+</button>
