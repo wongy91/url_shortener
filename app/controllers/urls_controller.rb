@@ -9,7 +9,7 @@ class UrlsController < ApplicationController
 
   def create
     @url = Url.new(url_params)
-    @url = @url.generate_and_assign_url
+    @url = @url.sanitize_and_assign_url
 
     if @url.save
       flash[:success] = "Shortened URL was created!"

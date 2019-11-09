@@ -3,15 +3,24 @@ class Url < ApplicationRecord
   validates_format_of :long_url, with: /.(com|edu|org|net|gov|mil|biz|info)$\z/i, if: -> { long_url.present? }
   validates_length_of :short_url, minimum: 2
 
-  def generate_and_assign_url
-    self.long_url = self.sanitize
-    existing_url = Url.where(long_url: long_url).take
-
+  def sanitize_and_assign_url
     return existing_url if existing_url
     self.short_url = generate_short_url
     self
   end
 
+  def sanitize
+    long_url.strip!
+    sanitize_url = self.long_url.downcase.gsub(/(https?:\/\/)|(www\.)/,"")
+    "http://#{sanitize_url}"
+  end
+
+  private
+
+  def existing_url
+    self.long_url = sanitize
+    Url.where(long_url: long_url).take
+  end
 
   def generate_short_url
     loop do
@@ -20,11 +29,5 @@ class Url < ApplicationRecord
     end
 
     @generated_short_url
-  end
-
-  def sanitize
-    long_url.strip!
-    sanitize_url = self.long_url.downcase.gsub(/(https?:\/\/)|(www\.)/,"")
-    "http://#{sanitize_url}"
   end
 end
