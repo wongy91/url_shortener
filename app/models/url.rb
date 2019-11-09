@@ -1,6 +1,6 @@
 class Url < ApplicationRecord
   validates :long_url, presence: true
-  validates_format_of :long_url, with: /.(com|edu|org|net|gov|mil|biz|info)$\z/i, if: -> { long_url.present? }
+  validates_format_of :long_url, with: /.(com|edu|org|net|gov|mil|biz|info|win|ai)$\z/i, if: -> { long_url.present? }
   validates_length_of :short_url, minimum: 2
 
   def sanitize_and_assign_url
